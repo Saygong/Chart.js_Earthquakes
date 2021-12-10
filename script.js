@@ -1,52 +1,100 @@
 
-$(document).ready(function(){
+window.onload = function(){
 
     const ctx = $('#myChart');
-    const container = $('.chart-container');
 
-    /* Terremoti più disastrosi negli ultimi 100 anni
-    https://it.wikipedia.org/wiki/Terremoti_in_Italia_nel_XX_secolo
-
-    Messina e Reggio Calabria (28 dicembre 1908), 7,24 M, 100.000 morti
+    function scale(mercalli) {
+        return (window.innerWidth*mercalli)/400;
+    }
 
 
-    Val di Noto, Sicilia orientale (11 gennaio 1693), 7,69 M, 60.000 morti
-    Reggio Calabria e Messina (5 febbraio 1783), 6,91 M, 50.000 morti
-    Avezzano, Abruzzo (13 gennaio 1915), 6,99 M, 30.519 morti
+    let example = [
+            {
+                label: 'Friuli',
+                data: [{'x': 16, 'y': 39.5 , 'r': scale(10)},{'x': 14.40, 'y': 39.5 , 'r': scale(10)}],
+                backgroundColor: 'rgba(0,129, 218, 0.8)',
+            },
+            {
+                label: 'After',
+                data: [{'x': 13, 'y': 52 , 'r': scale(4)}, {'x': 14.40, 'y': 39.5 , 'r': scale(10)}],
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            }
+            ];
 
 
-    Verona (3 gennaio 1117), 6,49 M, 30.000 morti
+/*
+    function createData(){
+        return [ {
+            {
+                labelString: 'Gemona del Friuli, Mercalli: 10, 1976',
+                data: {'x': 13, 'y': 52 , 'r': scale(10), 'city': 'Gemona del Friuli', 'magnitudo': 10, 'anno': 1976 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'Castelnuovo di Conza, Mercalli, 1980',
+                data: {'x': 14.40, 'y': 39.5 , 'r': scale(10), 'city': 'Castelnuovo di Conza', 'magnitudo': 10, 'anno': 1980 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'Foggia, Mercalli: 5, 1998',
+                data: {'x': 14.70, 'y': 43 , 'r': scale(5), 'city': 'Foggia', 'magnitudo': 5, 'anno': 1998 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'Monte Cimone, Mercalli: 6, 1999',
+                data: {'x': 11, 'y': 47.5 , 'r': scale(6), 'city': 'Monte Cimone', 'magnitudo': 6, 'anno': 1999 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            }
+
+            {
+                labelString: 'Messina, Mercalli: 12, 1908',
+                data: {'x': 14.40, 'y': 35 , 'r': scale(12), 'city': 'Messina', 'magnitudo': 12, 'anno': 1908 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'Etna, Mercalli: 10, 1911',
+                data: {'x': 13.6, 'y': 33 , 'r': scale(10), 'city': 'Etna', 'magnitudo': 10, 'anno': 1911 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'Majella, Mercalli: 8, 1933',
+                data: {'x': 13.2, 'y': 44 , 'r': scale(8), 'city': 'Majella', 'magnitudo': 8, 'anno': 1933 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            },
+            {
+                labelString: 'San Sepolcro, Mercalli: 8, 1948',
+                data: {'x': 11.9, 'y': 45.1 , 'r': scale(8), 'city': 'San Sepolcro', 'magnitudo': 8, 'anno': 1948 },
+                fill:true,
+                backgroundColor: 'rgba(0,129, 218, 0.7)',
+            }}
+
+        ];
+    }
+
+*/
 
 
-    Irpinia e Sannio (5 dicembre 1456), 6,96 Mw, 30.000 morti
-    Catania (4 febbraio 1169), 6,60 Mw, 20.000 morti
-    Montemurro, Basilicata (16 dicembre 1857), 6,96 Mw, 12.000 morti
-    Nicastro (oggi Lamezia Terme), Calabria (27 marzo 1638), 7,00 Mw, oltre 10.000 morti
-    Carinzia e Friuli (25 gennaio 1348), 6,66 Mw, 9900 morti
-
-
-
-    */
-
-    let data = [{'x': 14.40, 'y': 34.5 , 'r': 10}]  //11 gennaio 1693	Costa Siracusana - 12
-    let data2 = [{'x': 12.7, 'y': 44 , 'r': 8}]   //14 gennaio 1703	Norcino, Reatino e Aquilano - 11
-
-    let data3 = [{'x': 12.7, 'y': 51 , 'r': 8}]   //Carinzia e Friuli (25 gennaio 1348)
+    function prettyPrinting(data) {
+        return '(Magnitudo: ' + earthquakeData.magnitudo + ', Anno: ' + earthquakeData.anno + ')';
+    }
 
     const myChart = new Chart(ctx, {
         type: 'bubble',
         data: {
-            labels: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: data3,
-                    fill:true,
-                    backgroundColor: ['rgba(255, 0, 132, 0.2)'],
-                }
-            ]
+            datasets: example,
         },
         options: {
+
+            responsive: true,
+
             scales: {
                 x: {
                     max:19,
@@ -54,9 +102,6 @@ $(document).ready(function(){
                     title: {
                         display: true,
                         text: 'Longitudine'
-                    },
-                    ticks: {
-                        autoSkip: false
                     }
                 },
                 y: {
@@ -67,11 +112,20 @@ $(document).ready(function(){
                         text: 'Latitudine'
                     }
                 }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context, data) {
+                            let label = data.datasets[context.datasetIndex].label
+                            
+
+                        }
+                    }
+                }
             }
-        }
-
+        },
     });
-    console.log(myChart);
 
-
-});
+    myChart.update()
+};
