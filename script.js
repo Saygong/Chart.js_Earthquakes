@@ -66,6 +66,7 @@ window.onload = function(){
                     }
                 }
             },
+            maintainAspectRatio: false,
             plugins: {
                 tooltip: {
                     callbacks: {
