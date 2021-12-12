@@ -17,3 +17,10 @@ Passando con il mouse sopra alla bolla devono comparire:
 Infine le bolle/terremoti non devono comparire sulla cartina tutte assieme, ma una alla volta in base alla data.
 
 L'aggiunta di dati, eventi, animazioni, colori o altro verrà valutata positivamente.
+
+
+
+- Bolle con raggio corrispondente alla magnitudo - done
+- 2 dataset con almeno 4 terremoti -done
+- città, magnitudo e data -done
+- far comparire le bolle in base all'anno
